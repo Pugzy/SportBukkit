@@ -6,7 +6,7 @@ Subject: [PATCH] Override creation settings of existing world
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -500,6 +500,14 @@ public final class Bukkit {
+@@ -485,6 +485,14 @@ public final class Bukkit {
          return server.getWorlds();
      }
  
@@ -24,10 +24,11 @@ diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Buk
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -411,6 +411,29 @@ public interface Server extends PluginMessageRecipient {
+@@ -397,6 +397,29 @@ public interface Server extends PluginMessageRecipient {
+      */
      public List<World> getWorlds();
  
-     /**
++    /**
 +     * Check for a level.dat file belonging to a world with the given name.
 +     * If found, return a {@link WorldCreator} configured to match the settings
 +     * in the level.dat file. If the file is not found, return null. This works
@@ -50,10 +51,9 @@ diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Ser
 +     */
 +    World createWorld(String name);
 +
-+    /**
+     /**
       * Creates or loads a world with the given name using the specified
       * options.
-      * <p>
 diff --git a/src/main/java/org/bukkit/WorldCreator.java b/src/main/java/org/bukkit/WorldCreator.java
 --- a/src/main/java/org/bukkit/WorldCreator.java
 +++ b/src/main/java/org/bukkit/WorldCreator.java

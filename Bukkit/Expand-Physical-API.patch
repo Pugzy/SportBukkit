@@ -14,16 +14,16 @@ diff --git a/src/main/java/org/bukkit/Location.java b/src/main/java/org/bukkit/L
  
  import org.bukkit.block.Block;
  import org.bukkit.configuration.serialization.ConfigurationSerializable;
-@@ -19,7 +18,7 @@ import org.bukkit.util.Vector;
- /**
-  * Represents a 3-dimensional position in a world
+@@ -24,7 +23,7 @@ import org.bukkit.util.Vector;
+  * magnitude than 360 are valid, but may be normalized to any other equivalent
+  * representation by the implementation.
   */
 -public class Location implements Cloneable, ConfigurationSerializable, Physical {
 +public class Location implements Cloneable, ConfigurationSerializable, Locatable {
  
      private UUID worldId;
      private final Vector position;
-@@ -97,6 +96,15 @@ public class Location implements Cloneable, ConfigurationSerializable, Physical
+@@ -102,6 +101,15 @@ public class Location implements Cloneable, ConfigurationSerializable, Physical
          this.yaw = yaw;
      }
  
@@ -39,7 +39,7 @@ diff --git a/src/main/java/org/bukkit/Location.java b/src/main/java/org/bukkit/L
      /**
       * Sets the world that this location resides in
       *
-@@ -106,33 +114,19 @@ public class Location implements Cloneable, ConfigurationSerializable, Physical
+@@ -111,33 +119,19 @@ public class Location implements Cloneable, ConfigurationSerializable, Physical
          setWorldId(world.getUID());
      }
  
@@ -142,7 +142,7 @@ diff --git a/src/main/java/org/bukkit/Physical.java b/src/main/java/org/bukkit/P
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -533,6 +533,11 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -536,6 +536,11 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public UUID getUID();
  
@@ -157,7 +157,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
 diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/bukkit/block/BlockState.java
 --- a/src/main/java/org/bukkit/block/BlockState.java
 +++ b/src/main/java/org/bukkit/block/BlockState.java
-@@ -109,8 +109,6 @@ public interface BlockState extends Metadatable, Locatable {
+@@ -112,8 +112,6 @@ public interface BlockState extends Metadatable, Locatable {
       */
      World getWorld();
  

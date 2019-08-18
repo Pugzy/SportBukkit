@@ -5,7 +5,7 @@ Subject: [PATCH] Add PoseFlag and EntityLocation
 
 diff --git a/src/main/java/org/bukkit/EntityLocation.java b/src/main/java/org/bukkit/EntityLocation.java
 new file mode 100644
-index 0000000..d9fbf35
+index 00000000..d9fbf35a
 --- /dev/null
 +++ b/src/main/java/org/bukkit/EntityLocation.java
 @@ -0,0 +1,104 @@
@@ -115,7 +115,7 @@ index 0000000..d9fbf35
 +}
 diff --git a/src/main/java/org/bukkit/PoseFlag.java b/src/main/java/org/bukkit/PoseFlag.java
 new file mode 100644
-index 0000000..4d8fbee
+index 00000000..4d8fbeed
 --- /dev/null
 +++ b/src/main/java/org/bukkit/PoseFlag.java
 @@ -0,0 +1,41 @@
@@ -175,7 +175,7 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
  import org.bukkit.Server;
  import org.bukkit.World;
  import org.bukkit.event.entity.EntityDamageEvent;
-@@ -29,6 +31,8 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+@@ -30,6 +32,8 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
       */
      public Location getLocation();
  
@@ -185,17 +185,17 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
       * Stores the entity's current position in the provided Location object.
       * <p>
 @@ -41,6 +45,11 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+      */
      public Location getLocation(Location loc);
  
-     /**
++    /**
 +     * The set of {@link PoseFlag}s describing this entity's current state
 +     */
 +    Set<PoseFlag> getPoseFlags();
 +
-+    /**
+     /**
       * Sets this entity's velocity
       *
-      * @param velocity New velocity to travel with
 diff --git a/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java b/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java
 --- a/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java
 +++ b/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java

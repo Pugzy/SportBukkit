@@ -14,20 +14,20 @@ diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Buk
  import org.bukkit.command.CommandSender;
  import org.bukkit.command.ConsoleCommandSender;
  import org.bukkit.command.PluginCommand;
-@@ -944,6 +945,13 @@ public final class Bukkit {
+@@ -926,6 +927,13 @@ public final class Bukkit {
+         return server.createMerchant(title);
      }
  
-     /**
++    /**
 +     * @see Server#getCommandMap()
 +     */
 +    public static CommandMap getCommandMap() {
 +        return server.getCommandMap();
 +    }
 +
-+    /**
+     /**
       * Gets user-specified limit for number of monsters that can spawn in a
       * chunk.
-      *
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
@@ -39,15 +39,15 @@ diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Ser
  import org.bukkit.command.CommandSender;
  import org.bukkit.command.ConsoleCommandSender;
  import org.bukkit.command.PluginCommand;
-@@ -714,6 +715,11 @@ public interface Server extends PluginMessageRecipient {
+@@ -698,6 +699,11 @@ public interface Server extends PluginMessageRecipient {
+      */
      public HelpMap getHelpMap();
  
-     /**
++    /**
 +     * Gets the {@link CommandMap} containing all registered commands on this server.
 +     */
 +    public CommandMap getCommandMap();
 +
-+    /**
+     /**
       * Creates an empty inventory of the specified type. If the type is {@link
       * InventoryType#CHEST}, the new inventory has a size of 27; otherwise the
-      * new inventory has the normal size for its type.

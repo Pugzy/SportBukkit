@@ -6,10 +6,11 @@ Subject: [PATCH] Fake name and skin API
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -437,6 +437,27 @@ public final class Bukkit {
+@@ -421,6 +421,27 @@ public final class Bukkit {
+         return server.getPlayer(id);
      }
  
-     /**
++    /**
 +     * @see Server#getPlayer(String, CommandSender)
 +     */
 +    public static Player getPlayer(String name, CommandSender viewer) {
@@ -30,14 +31,13 @@ diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Buk
 +        return server.matchPlayer(name, viewer);
 +    }
 +
-+    /**
+     /**
       * Gets the plugin manager for interfacing with plugins.
       *
-      * @return a plugin manager for this Server instance
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -363,7 +363,22 @@ public interface Server extends PluginMessageRecipient {
+@@ -350,7 +350,22 @@ public interface Server extends PluginMessageRecipient {
      public Player getPlayer(UUID id);
  
      /**
@@ -63,7 +63,7 @@ diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Ser
       */
 diff --git a/src/main/java/org/bukkit/Skin.java b/src/main/java/org/bukkit/Skin.java
 new file mode 100644
-index 0000000..5dc9cef
+index 00000000..5dc9ceff
 --- /dev/null
 +++ b/src/main/java/org/bukkit/Skin.java
 @@ -0,0 +1,76 @@
@@ -170,30 +170,124 @@ diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java
 +    public String getName(CommandSender viewer);
  }
 diff --git a/src/main/java/org/bukkit/command/defaults/ListCommand.java b/src/main/java/org/bukkit/command/defaults/ListCommand.java
---- a/src/main/java/org/bukkit/command/defaults/ListCommand.java
+new file mode 100644
+index 00000000..7000c69a
+--- /dev/null
 +++ b/src/main/java/org/bukkit/command/defaults/ListCommand.java
-@@ -36,7 +36,7 @@ public class ListCommand extends VanillaCommand {
-                 online.append(", ");
-             }
- 
--            online.append(player.getDisplayName());
+@@ -0,0 +1,55 @@
++package org.bukkit.command.defaults;
++
++import java.util.Collection;
++import java.util.List;
++
++import org.apache.commons.lang.Validate;
++import org.bukkit.Bukkit;
++import org.bukkit.command.CommandSender;
++import org.bukkit.entity.Player;
++
++import com.google.common.collect.ImmutableList;
++
++@Deprecated
++public class ListCommand extends BukkitCommand {
++    public ListCommand() {
++        super("list");
++        this.description = "Lists all online players";
++        this.usageMessage = "/list";
++        this.setPermission("bukkit.command.list");
++    }
++
++    @Override
++    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
++        if (!testPermission(sender)) return true;
++
++        StringBuilder online = new StringBuilder();
++
++        final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
++
++        for (Player player : players) {
++            // If a player is hidden from the sender don't show them in the list
++            if (sender instanceof Player && !((Player) sender).canSee(player))
++                continue;
++
++            if (online.length() > 0) {
++                online.append(", ");
++            }
++
 +            online.append(player.getDisplayName(sender instanceof Player ? (Player) sender : null));
-         }
- 
-         sender.sendMessage("There are " + players.size() + "/" + Bukkit.getMaxPlayers() + " players online:\n" + online.toString());
++        }
++
++        sender.sendMessage("There are " + players.size() + "/" + Bukkit.getMaxPlayers() + " players online:\n" + online.toString());
++
++        return true;
++    }
++
++    @Override
++    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
++        Validate.notNull(sender, "Sender cannot be null");
++        Validate.notNull(args, "Arguments cannot be null");
++        Validate.notNull(alias, "Alias cannot be null");
++
++        return ImmutableList.of();
++    }
++}
+\ No newline at end of file
 diff --git a/src/main/java/org/bukkit/command/defaults/TellCommand.java b/src/main/java/org/bukkit/command/defaults/TellCommand.java
---- a/src/main/java/org/bukkit/command/defaults/TellCommand.java
+new file mode 100644
+index 00000000..da180d95
+--- /dev/null
 +++ b/src/main/java/org/bukkit/command/defaults/TellCommand.java
-@@ -25,7 +25,8 @@ public class TellCommand extends VanillaCommand {
-             return false;
-         }
- 
--        Player player = Bukkit.getPlayerExact(args[0]);
+@@ -0,0 +1,50 @@
++package org.bukkit.command.defaults;
++
++import java.util.Arrays;
++
++import org.bukkit.Bukkit;
++import org.bukkit.ChatColor;
++import org.bukkit.command.CommandSender;
++import org.bukkit.entity.Player;
++
++@Deprecated
++public class TellCommand extends BukkitCommand {
++    public TellCommand() {
++        super("tell");
++        this.description = "Sends a private message to the given player";
++        this.usageMessage = "/tell <player> <message>";
++        this.setAliases(Arrays.asList("w", "msg"));
++        this.setPermission("bukkit.command.tell");
++    }
++
++    @Override
++    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
++        if (!testPermission(sender)) return true;
++        if (args.length < 2)  {
++            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
++            return false;
++        }
++
 +        Player viewer = sender instanceof Player ? (Player) sender : null;
 +        Player player = Bukkit.getPlayerExact(args[0], viewer);
- 
-         // If a player is hidden from the sender pretend they are offline
-         if (player == null || (sender instanceof Player && !((Player) sender).canSee(player))) {
++
++        // If a player is hidden from the sender pretend they are offline
++        if (player == null || (sender instanceof Player && !((Player) sender).canSee(player))) {
++            sender.sendMessage("There's no player by that name online.");
++        } else {
++            StringBuilder message = new StringBuilder();
++
++            for (int i = 1; i < args.length; i++) {
++                if (i > 1) message.append(" ");
++                message.append(args[i]);
++            }
++
++            String result = ChatColor.GRAY + sender.getName() + " whispers " + message;
++
++            sender.sendMessage("[" + sender.getName() + "->" + player.getName() + "] " + message);
++            player.sendMessage(result);
++        }
++
++        return true;
++    }
++}
+\ No newline at end of file
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
@@ -213,10 +307,11 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
  import org.bukkit.Sound;
  import org.bukkit.SoundCategory;
  import org.bukkit.Statistic;
-@@ -28,6 +30,60 @@ import org.bukkit.scoreboard.Scoreboard;
+@@ -31,6 +33,60 @@ import org.bukkit.scoreboard.Scoreboard;
+  */
  public interface Player extends HumanEntity, Conversable, CommandSender, OfflinePlayer, PluginMessageRecipient {
  
-     /**
++    /**
 +     * Set a fake name for this player when viewed by the given player.
 +     * If the name is null then the fake name is cleared.
 +     */
@@ -270,14 +365,14 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
 +     */
 +    public String getDisplayName(CommandSender viewer);
 +
-+    /**
+     /**
       * Gets the "friendly" name to display of this player. This may include
       * color.
-      * <p>
-@@ -80,6 +136,74 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -83,6 +139,74 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      */
      public void setPlayerListName(String name);
  
-     /**
++    /**
 +     * Test if this Player has a fake skin set for the given viewer
 +     */
 +    public boolean hasFakeSkin(CommandSender viewer);
@@ -345,13 +440,12 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
 +     */
 +    public void clearFakeNamesAndSkins();
 +
-+    /**
+     /**
       * Set the target of the player's compass.
       *
-      * @param loc Location to point to
 diff --git a/src/main/java/org/bukkit/event/player/PlayerSkinPartsChangeEvent.java b/src/main/java/org/bukkit/event/player/PlayerSkinPartsChangeEvent.java
 new file mode 100644
-index 0000000..a222f21
+index 00000000..a222f21e
 --- /dev/null
 +++ b/src/main/java/org/bukkit/event/player/PlayerSkinPartsChangeEvent.java
 @@ -0,0 +1,32 @@

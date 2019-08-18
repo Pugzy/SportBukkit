@@ -5,7 +5,7 @@ Subject: [PATCH] Immutable materials and items
 
 diff --git a/src/main/java/org/bukkit/inventory/ImItemStack.java b/src/main/java/org/bukkit/inventory/ImItemStack.java
 new file mode 100644
-index 0000000..17feb00
+index 00000000..17feb009
 --- /dev/null
 +++ b/src/main/java/org/bukkit/inventory/ImItemStack.java
 @@ -0,0 +1,94 @@
@@ -335,16 +335,16 @@ diff --git a/src/main/java/org/bukkit/material/MaterialData.java b/src/main/java
          this.data = data;
      }
  
-@@ -92,7 +94,7 @@ public class MaterialData implements Cloneable {
-      * @return New ItemStack containing a copy of this MaterialData
+@@ -95,7 +97,7 @@ public class MaterialData implements Cloneable {
       */
+     @Deprecated
      public ItemStack toItemStack() {
 -        return new ItemStack(type, 0, data);
 +        return toItemStack(1);
      }
  
      /**
-@@ -102,7 +104,11 @@ public class MaterialData implements Cloneable {
+@@ -105,7 +107,11 @@ public class MaterialData implements Cloneable {
       * @return New ItemStack containing a copy of this MaterialData
       */
      public ItemStack toItemStack(int amount) {
@@ -357,7 +357,7 @@ diff --git a/src/main/java/org/bukkit/material/MaterialData.java b/src/main/java
      }
  
      @Override
-@@ -129,9 +135,39 @@ public class MaterialData implements Cloneable {
+@@ -132,9 +138,39 @@ public class MaterialData implements Cloneable {
      @Override
      public MaterialData clone() {
          try {

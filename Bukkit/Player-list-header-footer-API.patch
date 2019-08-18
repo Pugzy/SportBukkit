@@ -6,7 +6,7 @@ Subject: [PATCH] Player list header/footer API
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1509,4 +1509,20 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -1590,4 +1590,20 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
       * @param components the components to send
       */
      public void sendMessage(net.md_5.bungee.api.chat.BaseComponent... components);

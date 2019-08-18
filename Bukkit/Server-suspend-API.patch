@@ -23,34 +23,34 @@ diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Ser
  
  import org.bukkit.Warning.WarningState;
  import org.bukkit.boss.BarColor;
-@@ -138,6 +141,12 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+@@ -124,6 +127,12 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+ 
      Map<UUID, Player> playersById();
  
-     /**
++    /**
 +     * If the server is currently empty of players, return the {@link Instant}
 +     * that the last player disconnected. If the server is not empty, return null.
 +     */
 +    @Nullable Instant emptySince();
 +
-+    /**
+     /**
       * Get the maximum amount of players which can login to this server.
       *
-      * @return the amount of players this server allows
-@@ -330,6 +339,13 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+@@ -316,6 +325,13 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+      */
      public int getTicksPerMonsterSpawns();
  
-     /**
++    /**
 +     * Time to wait before automatically suspending an empty server.
 +     *
 +     * @see #setSuspended(boolean)
 +     */
 +    @Nullable Duration getEmptyServerSuspendDelay();
 +
-+    /**
+     /**
       * Gets a player object by the given username.
       * <p>
-      * This method may not return objects for offline players.
-@@ -1060,4 +1076,65 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+@@ -1069,4 +1085,65 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
       *         false if it was added to the main thread queue
       */
      boolean runOnMainThread(Plugin plugin, boolean priority, Runnable task);
@@ -129,7 +129,7 @@ diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/j
      public void setFallbackCommands() {
 diff --git a/src/main/java/org/bukkit/command/defaults/SuspendCommand.java b/src/main/java/org/bukkit/command/defaults/SuspendCommand.java
 new file mode 100644
-index 0000000..2a844e6
+index 00000000..2a844e68
 --- /dev/null
 +++ b/src/main/java/org/bukkit/command/defaults/SuspendCommand.java
 @@ -0,0 +1,53 @@
@@ -254,7 +254,7 @@ diff --git a/src/main/java/org/bukkit/event/SimpleEventBus.java b/src/main/java/
      }
 diff --git a/src/main/java/org/bukkit/event/server/ServerSuspendEvent.java b/src/main/java/org/bukkit/event/server/ServerSuspendEvent.java
 new file mode 100644
-index 0000000..aac9118
+index 00000000..aac91189
 --- /dev/null
 +++ b/src/main/java/org/bukkit/event/server/ServerSuspendEvent.java
 @@ -0,0 +1,16 @@
@@ -277,7 +277,7 @@ index 0000000..aac9118
 diff --git a/src/test/java/org/bukkit/TestServer.java b/src/test/java/org/bukkit/TestServer.java
 --- a/src/test/java/org/bukkit/TestServer.java
 +++ b/src/test/java/org/bukkit/TestServer.java
-@@ -86,7 +86,7 @@ public class TestServer implements InvocationHandler {
+@@ -94,7 +94,7 @@ public class TestServer implements InvocationHandler {
              Server instance = Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(server);
              Bukkit.setServer(instance);
              server.pluginManager = new SimplePluginManager(instance, new SimpleCommandMap(instance));
@@ -304,10 +304,11 @@ diff --git a/src/test/java/org/bukkit/event/EventBusTest.java b/src/test/java/or
          flow = new ArrayList<>();
      }
  
-@@ -79,17 +78,6 @@ public class EventBusTest {
+@@ -78,17 +77,6 @@ public class EventBusTest {
+         );
      }
  
-     @Test
+-    @Test
 -    public void asyncEventHoldingLockThrows() throws Throwable {
 -        TestThread.join(() -> {
 -            synchronized(lock) {
@@ -318,17 +319,17 @@ diff --git a/src/test/java/org/bukkit/event/EventBusTest.java b/src/test/java/or
 -        });
 -    }
 -
--    @Test
+     @Test
      public void eventWithBody() throws Exception {
          bus.callEvent(new TestEvent(), event ->
-             flow("body")
 diff --git a/src/test/java/org/bukkit/plugin/PluginManagerTest.java b/src/test/java/org/bukkit/plugin/PluginManagerTest.java
 --- a/src/test/java/org/bukkit/plugin/PluginManagerTest.java
 +++ b/src/test/java/org/bukkit/plugin/PluginManagerTest.java
-@@ -39,28 +39,6 @@ public class PluginManagerTest {
+@@ -38,28 +38,6 @@ public class PluginManagerTest {
+         pm.callEvent(event);
      }
  
-     @Test
+-    @Test
 -    public void testAsyncLocked() throws InterruptedException {
 -        final Event event = new TestEvent(true);
 -        Thread secondThread = new Thread(
@@ -350,7 +351,6 @@ diff --git a/src/test/java/org/bukkit/plugin/PluginManagerTest.java b/src/test/j
 -        assertThat(event.getEventName() + " cannot be called asynchronously from inside synchronized code.", is(((Throwable) store.value).getMessage()));
 -    }
 -
--    @Test
+     @Test
      public void testAsyncUnlocked() throws InterruptedException {
          final Event event = new TestEvent(true);
-         Thread secondThread = new Thread(

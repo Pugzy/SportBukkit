@@ -6,15 +6,15 @@ Subject: [PATCH] Empty chunk API
 diff --git a/src/main/java/org/bukkit/Chunk.java b/src/main/java/org/bukkit/Chunk.java
 --- a/src/main/java/org/bukkit/Chunk.java
 +++ b/src/main/java/org/bukkit/Chunk.java
-@@ -52,6 +52,11 @@ public interface Chunk extends Physical {
+@@ -51,6 +51,11 @@ public interface Chunk extends Physical {
+      */
      Set<Block> getBlocks(Material material);
  
-     /**
++    /**
 +     * Is this chunk entirely filled with air blocks?
 +     */
 +    boolean isEmpty();
 +
-+    /**
+     /**
       * Capture thread-safe read-only snapshot of chunk data
       *
-      * @return ChunkSnapshot

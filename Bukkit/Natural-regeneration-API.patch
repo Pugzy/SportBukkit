@@ -6,7 +6,7 @@ Subject: [PATCH] Natural regeneration API
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -980,6 +980,14 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -995,6 +995,14 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
       */
      public void setFoodLevel(int value);
  

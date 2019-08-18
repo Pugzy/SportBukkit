@@ -14,7 +14,7 @@ diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Buk
  import org.bukkit.permissions.Permissible;
  import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.PluginManager;
-@@ -1269,6 +1270,7 @@ public final class Bukkit {
+@@ -1282,6 +1283,7 @@ public final class Bukkit {
          return runtime().key(id);
      }
  
@@ -70,7 +70,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
  
  import org.bukkit.block.Biome;
  import org.bukkit.block.Block;
-@@ -36,6 +44,8 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -37,6 +45,8 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public Block getBlockAt(int x, int y, int z);
  
@@ -80,9 +80,10 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
       * Gets the {@link Block} at the given {@link Location}
       *
 @@ -73,6 +83,30 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+     @Deprecated
      public int getBlockTypeIdAt(Location location);
  
-     /**
++    /**
 +     * Test if the block at the given position in this world is made of the given material.
 +     */
 +    boolean hasMaterialAt(MaterialData material, Vec3 position);
@@ -106,11 +107,10 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
 +     */
 +    Predicate<Vec3> hasMaterialAt(Set<MaterialData> materials);
 +
-+    /**
+     /**
       * Gets the y coordinate of the lowest block at this position such that the
       * block and all blocks above it are transparent for lighting purposes.
-      *
-@@ -140,6 +174,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -141,6 +175,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public Chunk getChunkAt(int x, int z);
  
@@ -121,7 +121,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
      /**
       * Gets the {@link Chunk} at the given {@link Location}
       *
-@@ -916,6 +954,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -929,6 +967,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      Biome getBiome(int x, int z);
  
@@ -132,7 +132,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
      /**
       * Sets the biome for the given block coordinates
       *
-@@ -925,6 +967,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -938,6 +980,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      void setBiome(int x, int z, Biome bio);
  
@@ -143,7 +143,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
      /**
       * Gets the temperature for the given block coordinates.
       * <p>
-@@ -937,6 +983,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -950,6 +996,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public double getTemperature(int x, int z);
  
@@ -154,7 +154,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
      /**
       * Gets the humidity for the given block coordinates.
       * <p>
-@@ -949,6 +999,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -962,6 +1012,10 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public double getHumidity(int x, int z);
  
@@ -165,7 +165,7 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
      /**
       * Gets the maximum height of this world.
       * <p>
-@@ -1509,6 +1563,37 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
+@@ -1522,6 +1576,37 @@ public interface World extends PluginMessageRecipient, Metadatable, Physical {
       */
      public <T> void spawnParticle(Particle particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, double extra, T data);
  
@@ -225,7 +225,7 @@ diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukki
       *
 diff --git a/src/main/java/org/bukkit/block/BlockFactory.java b/src/main/java/org/bukkit/block/BlockFactory.java
 new file mode 100644
-index 0000000..4968dd1
+index 00000000..4968dd19
 --- /dev/null
 +++ b/src/main/java/org/bukkit/block/BlockFactory.java
 @@ -0,0 +1,21 @@
@@ -252,7 +252,7 @@ index 0000000..4968dd1
 +}
 diff --git a/src/main/java/org/bukkit/block/BlockImage.java b/src/main/java/org/bukkit/block/BlockImage.java
 new file mode 100644
-index 0000000..defd64c
+index 00000000..defd64cf
 --- /dev/null
 +++ b/src/main/java/org/bukkit/block/BlockImage.java
 @@ -0,0 +1,65 @@
@@ -338,7 +338,7 @@ diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/
  
  /**
   * Represents a captured state of a block, which will not change
-@@ -54,6 +59,14 @@ public interface BlockState extends Metadatable, Locatable {
+@@ -55,6 +60,14 @@ public interface BlockState extends Metadatable, Locatable {
       */
      void setMaterialData(MaterialData materialData);
  
@@ -351,9 +351,9 @@ diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/
 +    void reorient(CoarseTransform transform);
 +
      /**
-      * Gets the metadata for this block
+      * Gets the metadata for this block state.
       *
-@@ -95,6 +108,12 @@ public interface BlockState extends Metadatable, Locatable {
+@@ -98,6 +111,12 @@ public interface BlockState extends Metadatable, Locatable {
       */
      World getWorld();
  
@@ -364,9 +364,9 @@ diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/
 +    Vec3 tryPosition();
 +
      /**
-      * Gets the x-coordinate of this block
+      * Gets the x-coordinate of this block state.
       *
-@@ -241,4 +260,6 @@ public interface BlockState extends Metadatable, Locatable {
+@@ -251,4 +270,6 @@ public interface BlockState extends Metadatable, Locatable {
       *         or 'virtual' (e.g. on an itemstack)
       */
      boolean isPlaced();
@@ -375,7 +375,7 @@ diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/
  }
 diff --git a/src/main/java/org/bukkit/block/EmptyBlockImage.java b/src/main/java/org/bukkit/block/EmptyBlockImage.java
 new file mode 100644
-index 0000000..fc3f166
+index 00000000..fc3f1666
 --- /dev/null
 +++ b/src/main/java/org/bukkit/block/EmptyBlockImage.java
 @@ -0,0 +1,40 @@
@@ -421,7 +421,7 @@ index 0000000..fc3f166
 +}
 diff --git a/src/main/java/org/bukkit/block/TransformedBlockImage.java b/src/main/java/org/bukkit/block/TransformedBlockImage.java
 new file mode 100644
-index 0000000..db43c72
+index 00000000..db43c72d
 --- /dev/null
 +++ b/src/main/java/org/bukkit/block/TransformedBlockImage.java
 @@ -0,0 +1,49 @@

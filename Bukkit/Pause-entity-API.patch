@@ -6,8 +6,8 @@ Subject: [PATCH] Pause entity API
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -506,4 +506,21 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
-     boolean removeScoreboardTag(String tag);
+@@ -557,4 +557,21 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+     PistonMoveReaction getPistonMoveReaction();
  
      Cuboid getBoundingBox();
 +

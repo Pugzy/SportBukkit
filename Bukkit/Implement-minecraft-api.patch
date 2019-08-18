@@ -6,15 +6,51 @@ Subject: [PATCH] Implement minecraft-api
 diff --git a/pom.xml b/pom.xml
 --- a/pom.xml
 +++ b/pom.xml
-@@ -95,10 +95,8 @@
+@@ -25,30 +25,11 @@
+ 
+     <repositories>
+         <repository>
+-            <id>pa-snapshots</id>
+-            <url>https://repo.extension.ws/content/repositories/snapshots</url>
+-        </repository>
+-        <repository>
+-            <id>pa-releases</id>
+-            <url>https://repo.extension.ws/content/repositories/releases</url>
+-        </repository>
+-        <repository>
+-            <id>bungeecord-repo</id>
+-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
++            <id>jitpack.io</id>
++            <url>https://jitpack.io</url>
+         </repository>
+     </repositories>
+ 
+-    <distributionManagement>
+-        <repository>
+-            <id>pa-deployment</id>
+-            <url>https://repo.extension.ws/content/repositories/releases</url>
+-        </repository>
+-        <snapshotRepository>
+-            <id>pa-deployment</id>
+-            <url>https://repo.extension.ws/content/repositories/snapshots</url>
+-        </snapshotRepository>
+-    </distributionManagement>
+-
+     <pluginRepositories>
+         <pluginRepository>
+             <id>spigotmc-public</id>
+@@ -90,11 +71,9 @@
+             <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>tc.oc</groupId>
+-            <groupId>net.md-5</groupId>
 -            <artifactId>bungeecord-chat</artifactId>
-+            <artifactId>minecraft-api</artifactId>
-             <version>1.11-SNAPSHOT</version>
+-            <version>1.12-SNAPSHOT</version>
 -            <type>jar</type>
 -            <scope>compile</scope>
++            <groupId>com.github.OvercastNetwork</groupId>
++            <artifactId>minecraft-api</artifactId>
++            <version>master-6b2e2465a0-1</version>
          </dependency>
  
          <!-- testing -->
@@ -77,7 +113,7 @@ diff --git a/src/main/java/org/bukkit/configuration/Configuration.java b/src/mai
 diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/src/main/java/org/bukkit/configuration/ConfigurationSection.java
 --- a/src/main/java/org/bukkit/configuration/ConfigurationSection.java
 +++ b/src/main/java/org/bukkit/configuration/ConfigurationSection.java
-@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
+@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
  /**
   * Represents a section of a {@link Configuration}
   */
@@ -86,7 +122,7 @@ diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/
      /**
       * Gets a set containing all keys in this section.
       * <p>
-@@ -767,6 +767,8 @@ public interface ConfigurationSection {
+@@ -800,6 +800,8 @@ public interface ConfigurationSection {
       */
      public boolean isColor(String path);
  
@@ -95,7 +131,7 @@ diff --git a/src/main/java/org/bukkit/configuration/ConfigurationSection.java b/
      /**
       * Gets the requested ConfigurationSection by path.
       * <p>
-@@ -825,4 +827,6 @@ public interface ConfigurationSection {
+@@ -858,4 +860,6 @@ public interface ConfigurationSection {
       * @throws IllegalArgumentException Thrown if path is null.
       */
      public void addDefault(String path, Object value);
@@ -117,8 +153,8 @@ diff --git a/src/main/java/org/bukkit/configuration/InvalidConfigurationExceptio
 diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/main/java/org/bukkit/configuration/MemorySection.java
 --- a/src/main/java/org/bukkit/configuration/MemorySection.java
 +++ b/src/main/java/org/bukkit/configuration/MemorySection.java
-@@ -14,11 +14,12 @@ import org.bukkit.Color;
- import org.bukkit.OfflinePlayer;
+@@ -15,11 +15,12 @@ import org.bukkit.OfflinePlayer;
+ import org.bukkit.configuration.serialization.ConfigurationSerializable;
  import org.bukkit.inventory.ItemStack;
  import org.bukkit.util.Vector;
 +import tc.oc.minecraft.api.configuration.AbstractConfigurationSection;
@@ -131,7 +167,7 @@ diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/mai
      protected final Map<String, Object> map = new LinkedHashMap<String, Object>();
      private final Configuration root;
      private final ConfigurationSection parent;
-@@ -68,6 +69,11 @@ public class MemorySection implements ConfigurationSection {
+@@ -69,6 +70,11 @@ public class MemorySection implements ConfigurationSection {
          this.fullPath = createPath(parent, path);
      }
  
@@ -143,8 +179,8 @@ diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/mai
      public Set<String> getKeys(boolean deep) {
          Set<String> result = new LinkedHashSet<String>();
  
-@@ -683,6 +689,17 @@ public class MemorySection implements ConfigurationSection {
-         return val instanceof Color;
+@@ -686,6 +692,17 @@ public class MemorySection implements ConfigurationSection {
+         return getSerializable(path, Color.class) != null;
      }
  
 +    @Override
@@ -164,7 +200,7 @@ diff --git a/src/main/java/org/bukkit/configuration/MemorySection.java b/src/mai
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -29,7 +29,7 @@ import org.bukkit.util.RayBlockIntersection;
+@@ -32,7 +32,7 @@ import org.bukkit.util.RayBlockIntersection;
  /**
   * Represents a player, connected or not
   */
@@ -197,7 +233,7 @@ diff --git a/src/main/java/org/bukkit/permissions/Permissible.java b/src/main/ja
 diff --git a/src/main/java/org/bukkit/plugin/Plugin.java b/src/main/java/org/bukkit/plugin/Plugin.java
 --- a/src/main/java/org/bukkit/plugin/Plugin.java
 +++ b/src/main/java/org/bukkit/plugin/Plugin.java
-@@ -16,7 +16,7 @@ import com.avaje.ebean.EbeanServer;
+@@ -14,7 +14,7 @@ import org.bukkit.generator.ChunkGenerator;
   * <p>
   * The use of {@link PluginBase} is recommended for actual Implementation
   */
@@ -209,15 +245,15 @@ diff --git a/src/main/java/org/bukkit/plugin/Plugin.java b/src/main/java/org/buk
 diff --git a/src/main/java/org/bukkit/plugin/PluginDescriptionFile.java b/src/main/java/org/bukkit/plugin/PluginDescriptionFile.java
 --- a/src/main/java/org/bukkit/plugin/PluginDescriptionFile.java
 +++ b/src/main/java/org/bukkit/plugin/PluginDescriptionFile.java
-@@ -174,7 +174,7 @@ import com.google.common.collect.ImmutableSet;
+@@ -170,7 +170,7 @@ import com.google.common.collect.ImmutableSet;
   *      inferno.burningdeaths: true
   *</pre></blockquote>
   */
 -public final class PluginDescriptionFile {
 +public final class PluginDescriptionFile implements tc.oc.minecraft.api.plugin.PluginDescription {
+     private static final Pattern VALID_NAME = Pattern.compile("^[A-Za-z0-9 _.-]+$");
      private static final ThreadLocal<Yaml> YAML = new ThreadLocal<Yaml>() {
          @Override
-         protected Yaml initialValue() {
 diff --git a/src/main/java/org/bukkit/plugin/PluginLogger.java b/src/main/java/org/bukkit/plugin/PluginLogger.java
 --- a/src/main/java/org/bukkit/plugin/PluginLogger.java
 +++ b/src/main/java/org/bukkit/plugin/PluginLogger.java
@@ -251,8 +287,8 @@ diff --git a/src/main/java/org/bukkit/plugin/PluginManager.java b/src/main/java/
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -365,6 +365,11 @@ public final class SimplePluginManager implements PluginManager {
-         return plugins.toArray(new Plugin[0]);
+@@ -363,6 +363,11 @@ public final class SimplePluginManager implements PluginManager {
+         return plugins.toArray(new Plugin[plugins.size()]);
      }
  
 +    @Override
@@ -263,21 +299,18 @@ diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main
      /**
       * Checks if the given plugin is enabled or not
       * <p>
-@@ -537,6 +542,21 @@ public final class SimplePluginManager implements PluginManager {
+@@ -535,6 +540,18 @@ public final class SimplePluginManager implements PluginManager {
          }
      }
  
-+    @Override
 +    public void registerListener(tc.oc.minecraft.api.plugin.Plugin plugin, tc.oc.minecraft.api.event.Listener listener) {
 +        registerEvents((Listener) listener, (Plugin) plugin);
 +    }
 +
-+    @Override
 +    public void unregisterListener(tc.oc.minecraft.api.event.Listener listener) {
 +        HandlerList.unregisterAll((Listener) listener);
 +    }
 +
-+    @Override
 +    public void unregisterListeners(tc.oc.minecraft.api.plugin.Plugin plugin) {
 +        HandlerList.unregisterAll((Plugin) plugin);
 +    }

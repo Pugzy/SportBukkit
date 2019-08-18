@@ -6,32 +6,32 @@ Subject: [PATCH] Add setting to disable skull fetching
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -329,6 +329,13 @@ public final class Bukkit {
+@@ -313,6 +313,13 @@ public final class Bukkit {
+         return server.getConnectionThrottle();
      }
  
-     /**
++    /**
 +     * @see Server#getFetchSkulls()
 +     */
 +    public static boolean getFetchSkulls() {
 +        return server.getFetchSkulls();
 +    }
 +
-+    /**
+     /**
       * Gets default ticks per animal spawns value.
       * <p>
-      * <b>Example Usage:</b>
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -269,6 +269,11 @@ public interface Server extends PluginMessageRecipient {
+@@ -255,6 +255,11 @@ public interface Server extends PluginMessageRecipient {
+      */
      public long getConnectionThrottle();
  
-     /**
++    /**
 +     * Should player skulls with missing skin data be fetched from Mojang?
 +     */
 +    public boolean getFetchSkulls();
 +
-+    /**
+     /**
       * Gets default ticks per animal spawns value.
       * <p>
-      * <b>Example Usage:</b>

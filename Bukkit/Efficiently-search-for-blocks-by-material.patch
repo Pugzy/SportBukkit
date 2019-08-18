@@ -15,10 +15,11 @@ diff --git a/src/main/java/org/bukkit/Chunk.java b/src/main/java/org/bukkit/Chun
  /**
   * Represents a chunk of blocks
   */
-@@ -42,6 +44,14 @@ public interface Chunk {
+@@ -41,6 +43,14 @@ public interface Chunk {
+      */
      Block getBlock(int x, int y, int z);
  
-     /**
++    /**
 +     * Get all blocks in this chunk that are made of the given {@link Material}
 +     *
 +     * @param material type of block to search for
@@ -26,7 +27,6 @@ diff --git a/src/main/java/org/bukkit/Chunk.java b/src/main/java/org/bukkit/Chun
 +     */
 +    Set<Block> getBlocks(Material material);
 +
-+    /**
+     /**
       * Capture thread-safe read-only snapshot of chunk data
       *
-      * @return ChunkSnapshot

@@ -14,10 +14,11 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
  import org.bukkit.util.Vector;
  
  /**
-@@ -112,6 +113,26 @@ public interface World extends PluginMessageRecipient, Metadatable {
+@@ -111,6 +112,26 @@ public interface World extends PluginMessageRecipient, Metadatable {
+      */
      public Block getHighestBlockAt(Location location);
  
-     /**
++    /**
 +     * Find the first block intersecting the given ray
 +     * @param start             Origin AND direction of the ray
 +     * @param distance          Length of the ray (so it's not strictly a ray, but whatever)
@@ -37,10 +38,9 @@ diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/Worl
 +     */
 +    RayBlockIntersection rayTraceBlock(Vector start, Vector end, boolean nonSolids, boolean liquids);
 +
-+    /**
+     /**
       * Gets the {@link Chunk} at the given coordinates
       *
-      * @param x X-coordinate of the chunk
 diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
 --- a/src/main/java/org/bukkit/block/Block.java
 +++ b/src/main/java/org/bukkit/block/Block.java
@@ -76,15 +76,15 @@ diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukki
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerResourcePackStatusEvent;
- import org.bukkit.map.MapView;
+@@ -27,6 +27,7 @@ import org.bukkit.map.MapView;
+ import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.messaging.PluginMessageRecipient;
  import org.bukkit.scoreboard.Scoreboard;
 +import org.bukkit.util.RayBlockIntersection;
  
  /**
   * Represents a player, connected or not
-@@ -1619,4 +1620,29 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -1699,4 +1700,29 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
       * or null if they are not digging any block.
       */
      public org.bukkit.block.Block getDiggingBlock();
@@ -116,7 +116,7 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
  }
 diff --git a/src/main/java/org/bukkit/util/RayBlockIntersection.java b/src/main/java/org/bukkit/util/RayBlockIntersection.java
 new file mode 100644
-index 0000000..b1ba1d8
+index 00000000..b1ba1d8d
 --- /dev/null
 +++ b/src/main/java/org/bukkit/util/RayBlockIntersection.java
 @@ -0,0 +1,40 @@

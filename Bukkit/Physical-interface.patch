@@ -17,7 +17,7 @@ diff --git a/src/main/java/org/bukkit/Chunk.java b/src/main/java/org/bukkit/Chun
       * Gets the X-coordinate of this chunk
 diff --git a/src/main/java/org/bukkit/Locatable.java b/src/main/java/org/bukkit/Locatable.java
 new file mode 100644
-index 0000000..1cb686d
+index 00000000..1cb686db
 --- /dev/null
 +++ b/src/main/java/org/bukkit/Locatable.java
 @@ -0,0 +1,5 @@
@@ -29,9 +29,9 @@ index 0000000..1cb686d
 diff --git a/src/main/java/org/bukkit/Location.java b/src/main/java/org/bukkit/Location.java
 --- a/src/main/java/org/bukkit/Location.java
 +++ b/src/main/java/org/bukkit/Location.java
-@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
- /**
-  * Represents a 3-dimensional position in a world
+@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
+  * magnitude than 360 are valid, but may be normalized to any other equivalent
+  * representation by the implementation.
   */
 -public class Location implements Cloneable, ConfigurationSerializable {
 +public class Location implements Cloneable, ConfigurationSerializable, Physical {
@@ -40,7 +40,7 @@ diff --git a/src/main/java/org/bukkit/Location.java b/src/main/java/org/bukkit/L
      private double y;
 diff --git a/src/main/java/org/bukkit/Physical.java b/src/main/java/org/bukkit/Physical.java
 new file mode 100644
-index 0000000..24a58ff
+index 00000000..24a58ffd
 --- /dev/null
 +++ b/src/main/java/org/bukkit/Physical.java
 @@ -0,0 +1,14 @@
@@ -61,15 +61,7 @@ index 0000000..24a58ff
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -13,7 +13,6 @@ import org.bukkit.block.Block;
- import org.bukkit.entity.*;
- import org.bukkit.generator.BlockPopulator;
- import org.bukkit.inventory.ItemStack;
--import org.bukkit.material.MaterialData;
- import org.bukkit.metadata.Metadatable;
- import org.bukkit.plugin.messaging.PluginMessageRecipient;
- import org.bukkit.util.Consumer;
-@@ -23,7 +22,7 @@ import org.bukkit.util.Vector;
+@@ -23,7 +23,7 @@ import org.bukkit.util.Vector;
  /**
   * Represents a world, which may contain entities, chunks and blocks
   */
@@ -117,7 +109,7 @@ diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/
 +public interface BlockState extends Metadatable, Locatable {
  
      /**
-      * Gets the block represented by this BlockState
+      * Gets the block represented by this block state.
 diff --git a/src/main/java/org/bukkit/block/DoubleChest.java b/src/main/java/org/bukkit/block/DoubleChest.java
 --- a/src/main/java/org/bukkit/block/DoubleChest.java
 +++ b/src/main/java/org/bukkit/block/DoubleChest.java
@@ -147,7 +139,7 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
  import org.bukkit.Location;
  import org.bukkit.EntityEffect;
  import org.bukkit.Nameable;
-@@ -18,7 +19,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+@@ -19,7 +20,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
  /**
   * Represents a base entity in the world
   */
@@ -235,18 +227,18 @@ diff --git a/src/main/java/org/bukkit/event/entity/PlayerLeashEntityEvent.java b
      private static final HandlerList handlers = new HandlerList();
      private final Entity leashHolder;
      private final Entity entity;
-@@ -50,6 +52,11 @@ public class PlayerLeashEntityEvent extends Event implements Cancellable {
+@@ -49,6 +51,11 @@ public class PlayerLeashEntityEvent extends Event implements Cancellable {
+         return player;
      }
  
-     @Override
++    @Override
 +    public World getWorld() {
 +        return getEntity().getWorld();
 +    }
 +
-+    @Override
+     @Override
      public HandlerList getHandlers() {
          return handlers;
-     }
 diff --git a/src/main/java/org/bukkit/event/hanging/HangingEvent.java b/src/main/java/org/bukkit/event/hanging/HangingEvent.java
 --- a/src/main/java/org/bukkit/event/hanging/HangingEvent.java
 +++ b/src/main/java/org/bukkit/event/hanging/HangingEvent.java
@@ -290,18 +282,18 @@ diff --git a/src/main/java/org/bukkit/event/inventory/InventoryEvent.java b/src/
      private static final HandlerList handlers = new HandlerList();
      protected InventoryView transaction;
  
-@@ -49,6 +51,11 @@ public class InventoryEvent extends Event {
+@@ -48,6 +50,11 @@ public class InventoryEvent extends Event {
+         return transaction;
      }
  
-     @Override
++    @Override
 +    public World getWorld() {
 +        return getInventory().getWorld();
 +    }
 +
-+    @Override
+     @Override
      public HandlerList getHandlers() {
          return handlers;
-     }
 diff --git a/src/main/java/org/bukkit/event/inventory/InventoryMoveItemEvent.java b/src/main/java/org/bukkit/event/inventory/InventoryMoveItemEvent.java
 --- a/src/main/java/org/bukkit/event/inventory/InventoryMoveItemEvent.java
 +++ b/src/main/java/org/bukkit/event/inventory/InventoryMoveItemEvent.java
@@ -415,18 +407,18 @@ diff --git a/src/main/java/org/bukkit/event/server/MapInitializeEvent.java b/src
      private static final HandlerList handlers = new HandlerList();
      private final MapView mapView;
  
-@@ -24,6 +26,11 @@ public class MapInitializeEvent extends ServerEvent {
+@@ -23,6 +25,11 @@ public class MapInitializeEvent extends ServerEvent {
+         return mapView;
      }
  
-     @Override
++    @Override
 +    public World getWorld() {
 +        return getMap().getWorld();
 +    }
 +
-+    @Override
+     @Override
      public HandlerList getHandlers() {
          return handlers;
-     }
 diff --git a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
 --- a/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java
 +++ b/src/main/java/org/bukkit/event/vehicle/VehicleEvent.java

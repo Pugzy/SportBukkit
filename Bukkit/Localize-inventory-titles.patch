@@ -6,7 +6,7 @@ Subject: [PATCH] Localize inventory titles
 diff --git a/src/main/java/org/bukkit/event/inventory/InventoryType.java b/src/main/java/org/bukkit/event/inventory/InventoryType.java
 --- a/src/main/java/org/bukkit/event/inventory/InventoryType.java
 +++ b/src/main/java/org/bukkit/event/inventory/InventoryType.java
-@@ -6,78 +6,80 @@ public enum InventoryType {
+@@ -6,82 +6,84 @@ public enum InventoryType {
       * A chest inventory, with 0, 9, 18, 27, 36, 45, or 54 slots of type
       * CONTAINER.
       */
@@ -89,6 +89,11 @@ diff --git a/src/main/java/org/bukkit/event/inventory/InventoryType.java b/src/m
       */
 -    HOPPER(5, "Item Hopper"),
 +    HOPPER(5, "Item Hopper", "container.hopper"),
+     /**
+      * A shulker box inventory, with 27 slots of type CONTAINER.
+      */
+-    SHULKER_BOX(27, "Shulker Box"),
++    SHULKER_BOX(27, "Shulker Box", "container.shulkerBox"),
      ;
  
      private final int size;
@@ -103,7 +108,7 @@ diff --git a/src/main/java/org/bukkit/event/inventory/InventoryType.java b/src/m
      }
  
      public int getDefaultSize() {
-@@ -88,6 +90,10 @@ public enum InventoryType {
+@@ -92,6 +94,10 @@ public enum InventoryType {
          return title;
      }
  
@@ -125,7 +130,7 @@ diff --git a/src/main/java/org/bukkit/inventory/Inventory.java b/src/main/java/o
  import org.bukkit.Location;
  import org.bukkit.Material;
  import org.bukkit.Physical;
-@@ -49,13 +50,25 @@ public interface Inventory extends Iterable<ItemStack>, Physical {
+@@ -49,12 +50,24 @@ public interface Inventory extends Iterable<ItemStack>, Physical {
      public void setMaxStackSize(int size);
  
      /**
@@ -137,7 +142,7 @@ diff --git a/src/main/java/org/bukkit/inventory/Inventory.java b/src/main/java/o
       */
      public String getName();
  
-     /**
++    /**
 +     * @return true if this inventory has been given a custom name
 +     *         false if it is using the default (localized) name
 +     */
@@ -148,10 +153,9 @@ diff --git a/src/main/java/org/bukkit/inventory/Inventory.java b/src/main/java/o
 +     */
 +    BaseComponent getLocalizedName();
 +
-+    /**
+     /**
       * Returns the ItemStack found in the slot at the given index
       *
-      * @param index The index of the Slot's ItemStack to return
 @@ -377,9 +390,10 @@ public interface Inventory extends Iterable<ItemStack>, Physical {
      public List<HumanEntity> getViewers();
  

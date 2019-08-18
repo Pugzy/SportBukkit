@@ -15,10 +15,11 @@ diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/buk
  import org.bukkit.permissions.ServerOperator;
  
  public interface OfflinePlayer extends ServerOperator, AnimalTamer, ConfigurationSerializable {
-@@ -18,6 +20,14 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+@@ -17,6 +19,14 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+      */
      public boolean isOnline();
  
-     /**
++    /**
 +     * Will this player be online after the current event is finished?
 +     *
 +     * Unlike {@link #isOnline()}, this returns true from within {@link PlayerLoginEvent},
@@ -26,7 +27,6 @@ diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/buk
 +     */
 +    boolean willBeOnline();
 +
-+    /**
+     /**
       * Returns the name of this player
       * <p>
-      * Names are no longer unique past a single game session. For persistent storage

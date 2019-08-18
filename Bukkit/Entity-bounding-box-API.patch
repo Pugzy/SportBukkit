@@ -14,10 +14,10 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
  import org.bukkit.metadata.Metadatable;
  import org.bukkit.util.Vector;
  
-@@ -493,4 +494,6 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
-      * @return true if the tag was successfully removed
+@@ -544,4 +545,6 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+      * @return reaction
       */
-     boolean removeScoreboardTag(String tag);
+     PistonMoveReaction getPistonMoveReaction();
 +
 +    Cuboid getBoundingBox();
  }
@@ -32,16 +32,16 @@ diff --git a/src/main/java/org/bukkit/entity/LivingEntity.java b/src/main/java/o
  
  /**
   * Represents a living entity, such as a monster or player
-@@ -43,6 +44,12 @@ public interface LivingEntity extends Attributable, Entity, Damageable, Projecti
+@@ -42,6 +43,12 @@ public interface LivingEntity extends Attributable, Entity, Damageable, Projecti
+      */
      public Location getEyeLocation();
  
-     /**
++    /**
 +     * Get a {@link Ray} originating at this entity's eye position,
 +     * and pointing in the direction this entity is looking.
 +     */
 +    Ray getEyeRay();
 +
-+    /**
+     /**
       * Gets all blocks along the living entity's line of sight.
       * <p>
-      * This list contains all blocks from the living entity's eye position to

@@ -5,7 +5,7 @@ Subject: [PATCH] Fix several block rotation data values
 
 diff --git a/src/main/java/org/bukkit/material/Alignable.java b/src/main/java/org/bukkit/material/Alignable.java
 new file mode 100644
-index 0000000..c9ad81e
+index 00000000..c9ad81e1
 --- /dev/null
 +++ b/src/main/java/org/bukkit/material/Alignable.java
 @@ -0,0 +1,8 @@
@@ -195,7 +195,7 @@ diff --git a/src/main/java/org/bukkit/material/Lever.java b/src/main/java/org/bu
      public Lever() {
          super(Material.LEVER);
      }
-@@ -101,56 +102,62 @@ public class Lever extends SimpleAttachableMaterialData implements Redstone {
+@@ -101,55 +102,61 @@ public class Lever extends SimpleAttachableMaterialData implements Redstone {
       * Sets the direction this lever is pointing in
       */
      public void setFacingDirection(BlockFace face) {
@@ -281,7 +281,7 @@ diff --git a/src/main/java/org/bukkit/material/Lever.java b/src/main/java/org/bu
          setData(data);
      }
  
-     @Override
++    @Override
 +    public Axis getAxis() {
 +        final byte data = (byte) (getData() & 0x7);
 +        switch(data) {
@@ -298,10 +298,9 @@ diff --git a/src/main/java/org/bukkit/material/Lever.java b/src/main/java/org/bu
 +        }
 +    }
 +
-+    @Override
+     @Override
      public String toString() {
          return super.toString() + " facing " + getFacing() + " " + (isPowered() ? "" : "NOT ") + "POWERED";
-     }
 diff --git a/src/main/java/org/bukkit/material/Sign.java b/src/main/java/org/bukkit/material/Sign.java
 --- a/src/main/java/org/bukkit/material/Sign.java
 +++ b/src/main/java/org/bukkit/material/Sign.java

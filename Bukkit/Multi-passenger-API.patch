@@ -6,18 +6,14 @@ Subject: [PATCH] Multi-passenger API
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -248,6 +248,28 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
-     public abstract boolean eject();
+@@ -294,6 +294,23 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+      */
+     public boolean eject();
  
-     /**
++    /**
 +     * @return true if the given entity is a passenger of this vehicle
 +     */
 +    boolean hasPassenger(Entity passenger);
-+
-+    /**
-+     * @return all of the current passengers in this vehicle
-+     */
-+    List<Entity> getPassengers();
 +
 +    /**
 +     * Make the given entities passengers of this vehicle. Any existing
@@ -31,20 +27,19 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
 +     */
 +    void ejectAll();
 +
-+    /**
+     /**
       * Returns the distance this entity has fallen
       *
-      * @return The distance.
-@@ -327,6 +349,12 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+@@ -375,6 +392,12 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+      */
      public boolean isInsideVehicle();
  
-     /**
++    /**
 +     * Enter the given vehicle
 +     * @return true if successful
 +     */
 +    boolean enterVehicle(Entity vehicle);
 +
-+    /**
+     /**
       * Leave the current vehicle. If the entity is currently in a vehicle (and
       * is removed from it), true will be returned, otherwise false will be
-      * returned.

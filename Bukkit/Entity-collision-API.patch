@@ -6,10 +6,11 @@ Subject: [PATCH] Entity collision API
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1073,6 +1073,18 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -1097,6 +1097,18 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      */
      public void setFlying(boolean value);
  
-     /**
++    /**
 +     * Change whether this player can push other entities
 +     * @param yes true to push other entities, which is the default
 +     */
@@ -21,7 +22,6 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
 +     */
 +    public boolean getCollidesWithEntities();
 +
-+    /**
+     /**
       * Sets the speed at which a client will fly. Negative values indicate
       * reverse directions.
-      *

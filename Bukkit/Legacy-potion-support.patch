@@ -70,10 +70,10 @@ diff --git a/src/main/java/org/bukkit/potion/Potion.java b/src/main/java/org/buk
 +
 +        Potion potion = new Potion(type, type.isUpgradeable() ? level : 1);
 +
-         if ((damage & SPLASH_BIT) > 0) {
+         if ((damage & SPLASH_BIT) != 0) {
              potion = potion.splash();
          }
--        if ((damage & EXTENDED_BIT) > 0) {
+-        if ((damage & EXTENDED_BIT) != 0) {
 +        if ((damage & EXTENDED_BIT) > 0 && type.isExtendable()) {
              potion = potion.extend();
          }

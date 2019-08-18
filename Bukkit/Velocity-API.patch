@@ -6,42 +6,43 @@ Subject: [PATCH] Velocity API
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -366,6 +366,13 @@ public final class Bukkit {
+@@ -350,6 +350,13 @@ public final class Bukkit {
+         return server.getWaterPushesTNT();
      }
  
-     /**
++    /**
 +     * @see Server#getLegacyKnockback()
 +     */
 +    public static boolean getLegacyKnockback() {
 +        return server.getLegacyKnockback();
 +    }
 +
-+    /**
+     /**
       * Gets default ticks per animal spawns value.
       * <p>
-      * <b>Example Usage:</b>
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -279,6 +279,11 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+@@ -265,6 +265,11 @@ public interface Server extends PluginMessageRecipient, BukkitRuntime, tc.oc.min
+      */
      public boolean getWaterPushesTNT();
  
-     /**
++    /**
 +     * Recreate knockback mechanics from Minecraft 1.8
 +     */
 +    public boolean getLegacyKnockback();
 +
-+    /**
+     /**
       * Gets default ticks per animal spawns value.
       * <p>
-      * <b>Example Usage:</b>
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -54,6 +54,48 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
-     public Vector getVelocity();
+@@ -68,6 +68,48 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Locatable
+      */
+     public double getWidth();
  
-     /**
++    /**
 +     * Apply an impulse to this entity, i.e. a relative change in velocity.
 +     *
 +     * The given vector is added to the current velocity, and the entity's new
@@ -83,14 +84,13 @@ diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/buk
 +     */
 +    Vector getPredictedVelocity();
 +
-+    /**
+     /**
       * Returns true if the entity is supported by a block. This value is a
       * state updated by the server and is not recalculated unless the entity
-      * moves.
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -25,6 +25,7 @@ import org.bukkit.map.MapView;
+@@ -28,6 +28,7 @@ import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.messaging.PluginMessageRecipient;
  import org.bukkit.scoreboard.Scoreboard;
  import org.bukkit.util.RayBlockIntersection;
@@ -98,7 +98,7 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
  
  /**
   * Represents a player, connected or not
-@@ -1657,4 +1658,12 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -1737,4 +1738,12 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
       * @return Information about the targeted block, or null if no blocks were found
       */
      RayBlockIntersection getTargetedBlock(boolean nonSolids, boolean liquids);
@@ -113,7 +113,7 @@ diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/buk
  }
 diff --git a/src/main/java/org/bukkit/event/player/PlayerKnockbackEvent.java b/src/main/java/org/bukkit/event/player/PlayerKnockbackEvent.java
 new file mode 100644
-index 0000000..7411633
+index 00000000..74116330
 --- /dev/null
 +++ b/src/main/java/org/bukkit/event/player/PlayerKnockbackEvent.java
 @@ -0,0 +1,26 @@

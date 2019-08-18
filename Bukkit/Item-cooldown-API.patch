@@ -6,7 +6,7 @@ Subject: [PATCH] Item cooldown API
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1678,5 +1678,29 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+@@ -1758,5 +1758,29 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
  
      boolean hasUnackedVelocity();
  

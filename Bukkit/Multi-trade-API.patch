@@ -7,9 +7,10 @@ diff --git a/src/main/java/org/bukkit/entity/HumanEntity.java b/src/main/java/or
 --- a/src/main/java/org/bukkit/entity/HumanEntity.java
 +++ b/src/main/java/org/bukkit/entity/HumanEntity.java
 @@ -119,6 +119,14 @@ public interface HumanEntity extends LivingEntity, AnimalTamer, Permissible, Inv
+      */
      public InventoryView openMerchant(Villager trader, boolean force);
  
-     /**
++    /**
 +     * Makes a copy of the given villager's current trading offers and opens
 +     * a trading window for this player, allowing them to interact with those
 +     * offers, without affecting the villager's state, or any other players who
@@ -17,7 +18,6 @@ diff --git a/src/main/java/org/bukkit/entity/HumanEntity.java b/src/main/java/or
 +     */
 +    public InventoryView openMerchantCopy(Villager trader);
 +
-+    /**
+     /**
       * Starts a trade between the player and the merchant.
       *
-      * Note that only one player may trade with a merchant at once. You must use

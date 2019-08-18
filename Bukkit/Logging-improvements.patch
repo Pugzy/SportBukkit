@@ -40,23 +40,15 @@ diff --git a/src/main/java/org/bukkit/plugin/PluginLogger.java b/src/main/java/o
      /**
       * Creates a new PluginLogger that extracts the name from a plugin.
       *
-@@ -24,7 +44,6 @@ public class PluginLogger extends Logger {
-         String prefix = context.getDescription().getPrefix();
-         pluginName = prefix != null ? new StringBuilder().append("[").append(prefix).append("] ").toString() : "[" + context.getDescription().getName() + "] ";
-         setParent(context.getServer().getLogger());
--        setLevel(Level.ALL);
-     }
- 
-     @Override
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPlugin.java b/src/main/java/org/bukkit/plugin/java/JavaPlugin.java
 --- a/src/main/java/org/bukkit/plugin/java/JavaPlugin.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPlugin.java
-@@ -290,7 +290,7 @@ public abstract class JavaPlugin extends PluginBase {
+@@ -283,7 +283,7 @@ public abstract class JavaPlugin extends PluginBase {
          this.dataFolder = dataFolder;
          this.classLoader = classLoader;
          this.configFile = new File(dataFolder, "config.yml");
 -        this.logger = new PluginLogger(this);
 +        this.logger = PluginLogger.get(this);
+     }
  
-         if (description.isDatabaseEnabled()) {
-             ServerConfig db = new ServerConfig();
+     /**
